@@ -1,0 +1,14 @@
+version: '3.5'
+services:
+  python:
+    image: symfony:latest
+    build:
+      context: .
+      args:
+        - UID
+        - USER_NAME
+    working_dir:
+      /app
+    volumes:
+      - ./app:/app
+    user: ${USER_NAME}

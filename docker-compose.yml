@@ -4,7 +4,7 @@ services:
     container_name: ${COMPOSE_PROJECT_NAME}_app
     build:
       context: .
-      dockerfile: ./docker/Dockerfile
+      dockerfile: docker/app/Dockerfile
       args:
         - UID
         - USER_NAME
@@ -13,6 +13,21 @@ services:
     volumes:
       - ./app:/app
     user: ${USER_NAME}
+    networks:
+      - internal
+  node:
+    container_name: ${COMPOSE_PROJECT_NAME}_node
+    build:
+      context: .
+      dockerfile: docker/node/Dockerfile
+    command: ["node", "websocket-relay.js", "supersecret", "8081", "8082"]
+    working_dir:
+      /app
+    ports:
+      - "8081:8081"
+      - "8082:8082"
+    volumes:
+      - ./app:/app
     networks:
       - internal
   nginx:

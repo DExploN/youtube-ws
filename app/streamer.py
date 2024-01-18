@@ -24,7 +24,7 @@ def streamer() :
         return
 
     _youtube_process = subprocess.Popen(('youtube-dl','-f','','--prefer-ffmpeg', '--no-color', '--no-cache-dir', '--no-progress','-o', '-', '-f', '22/18', url, '--reject-title', stream_id),stdout=subprocess.PIPE)
-    _ffmpeg_process = subprocess.Popen(('ffmpeg','-re','-i', '-','-preset', 'ultrafast','-vcodec', 'copy', '-acodec', 'copy','-threads','1', '-f', 'flv',destination + "/" + stream_id), stdin=_youtube_process.stdout)
+    _ffmpeg_process = subprocess.Popen(('ffmpeg','-re','-i', '-', '-codec:v','mpeg1video','-b:v', '1000k','-bf', '0','-f', 'mpegts', 'http://node:8081/supersecret'), stdin=_youtube_process.stdout)
     return
 
 if len(sys.argv) < 4:
